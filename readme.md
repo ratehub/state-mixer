@@ -2,6 +2,9 @@
 
 Mix up some states
 
+[![Build Status](https://travis-ci.org/ratehub/state-mixer.svg?branch=master)](https://travis-ci.org/ratehub/state-mixer)
+[![View on npm](https://img.shields.io/npm/v/state-mixer.svg)](https://www.npmjs.com/package/state-mixer)
+
 
 ```js
 // here's some interesting object
@@ -37,16 +40,11 @@ const createArgs = [
     [1],
 ];
 
-const reads = [
-    vum => { vum.value; return vum; },
-];
+const read = vum => { vum.value; return vum; };
+const inc = vum => { vum.value += 1; return vum; };
+const set0 = vum => { vum.value = 0; return vum; };
 
-const writes = [
-    vum => { vum.value += 1; return vum; },
-    vum => { vum.value = 0; return vum; },
-];
-
-mix(create, createArgs, [reads, writes]);
+mix(create, { createArgs, actions: [read, inc, set0] });
 // returns:
 // [
 //    ValueUsageMonitor [_value=0, reads=0, writes=0]
